@@ -1,5 +1,5 @@
-import 'package:flutter_state_management/redux/actions.dart';
-import 'package:flutter_state_management/redux/state.model.dart';
+import 'package:flutter_state_management/_redux/actions.dart';
+import 'package:flutter_state_management/_redux/state.model.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return AppState(items: itemsReducer(state.items, action));
