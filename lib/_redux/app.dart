@@ -13,7 +13,7 @@ class _AppViewModel {
   _AppViewModel({this.addItem});
 }
 
-class ReduxApp extends StatelessWidget {
+class App extends StatelessWidget {
   final store = Store<AppState>(appReducer, initialState: AppState.initialState());
 
   @override
@@ -25,13 +25,13 @@ class ReduxApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: ReduxPage(title: 'Flutter Redux Demo'),
+          home: Page(title: 'Flutter Redux Demo'),
         ));
   }
 }
 
-class ReduxPage extends StatelessWidget {
-  ReduxPage({Key key, this.title}) : super(key: key);
+class Page extends StatelessWidget {
+  Page({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -41,7 +41,7 @@ class ReduxPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: ReduxListView(),
+        body: ListViewWidget(),
         floatingActionButton: StoreConnector<AppState, _AppViewModel>(
           converter: (Store<AppState> store) {
             return _AppViewModel(addItem: (item) {
@@ -61,7 +61,7 @@ class ReduxPage extends StatelessWidget {
   }
 }
 
-class ReduxListView extends StatelessWidget {
+class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<String>>(
