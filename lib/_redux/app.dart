@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_state_management/_redux/actions.dart';
-import 'package:flutter_state_management/_redux/reducers.dart';
-import 'package:flutter_state_management/_redux/state.model.dart';
+import 'package:flutter_state_management/_redux/_actions.dart';
+import 'package:flutter_state_management/_redux/_reducers.dart';
+import 'package:flutter_state_management/_redux/_state_model.dart';
+import 'package:flutter_state_management/_redux/_view_model.dart';
 import 'package:redux/redux.dart';
-
-typedef AddItemFn(String item);
-
-class _AppViewModel {
-  final AddItemFn addItem;
-
-  _AppViewModel({this.addItem});
-}
 
 class App extends StatelessWidget {
   final store = Store<AppState>(appReducer, initialState: AppState.initialState());
@@ -42,13 +35,13 @@ class Page extends StatelessWidget {
           title: Text(title),
         ),
         body: ListViewWidget(),
-        floatingActionButton: StoreConnector<AppState, _AppViewModel>(
+        floatingActionButton: StoreConnector<AppState, AppViewModel>(
           converter: (Store<AppState> store) {
-            return _AppViewModel(addItem: (item) {
+            return AppViewModel(addItem: (item) {
               store.dispatch(AddItemAction(payload: item));
             });
           },
-          builder: (BuildContext context, _AppViewModel viewModel) {
+          builder: (BuildContext context, AppViewModel viewModel) {
             return FloatingActionButton(
               onPressed: () {
                 viewModel.addItem('New Item');

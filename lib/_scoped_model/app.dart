@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_state_management/_scoped_model/model.dart';
+import 'package:flutter_state_management/_scoped_model/_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class App extends StatelessWidget {
