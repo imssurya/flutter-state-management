@@ -1,8 +1,3 @@
-# flutter_state_management
+# Flutter State Management
 
-A new Flutter application.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+A Flutter application showing different kind of state managing patterns.

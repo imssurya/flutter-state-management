@@ -43,9 +43,7 @@ class Page extends StatelessWidget {
           },
           builder: (BuildContext context, AppViewModel viewModel) {
             return FloatingActionButton(
-              onPressed: () {
-                viewModel.addItem('New Item');
-              },
+              onPressed: () => viewModel.addItem('New Item'),
               tooltip: 'Add',
               child: Icon(Icons.add),
             );

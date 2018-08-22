@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:rxdart/subjects.dart';
 
 class ItemsBloc {
-  final List<String> _items = ["Germany", "France", "Sweden", "Norway"];
+  final List<String> _items = ['Germany', 'France', 'Sweden', 'Norway'];
 
   BehaviorSubject<List<String>> _itemsStreamController;
   StreamController<String> _addItemController;
