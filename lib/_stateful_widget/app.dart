@@ -23,7 +23,7 @@ class Page extends StatefulWidget {
 }
 
 class _PageState extends State<Page> {
-  List<String> items = ['Germany', 'France', 'Sweden', 'Norway'];
+  List<String> items = ['Item 1', 'Item 2', 'Item 3'];
 
   @override
   Widget build(BuildContext context) {
