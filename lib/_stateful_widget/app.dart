@@ -4,11 +4,11 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Stateful Demo',
+      title: 'Flutter Stateful Widget Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Page(title: 'Flutter Stateful Demo'),
+      home: Page(title: 'Flutter Stateful Widget Demo'),
     );
   }
 }
