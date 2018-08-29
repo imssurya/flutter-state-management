@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_state_management/_redux/_actions.dart';
 import 'package:flutter_state_management/_redux/_reducers.dart';
-import 'package:flutter_state_management/_redux/_state_model.dart';
-import 'package:flutter_state_management/_redux/_view_model.dart';
+import 'package:flutter_state_management/_redux/_state.dart';
 import 'package:redux/redux.dart';
 
 class App extends StatelessWidget {
@@ -35,15 +34,13 @@ class Page extends StatelessWidget {
           title: Text(title),
         ),
         body: ListViewWidget(),
-        floatingActionButton: StoreConnector<AppState, AppViewModel>(
+        floatingActionButton: StoreConnector<AppState, VoidCallback>(
           converter: (Store<AppState> store) {
-            return AppViewModel(addItem: (item) {
-              store.dispatch(AddItemAction(payload: item));
-            });
+            return () => store.dispatch(AddItemAction(payload: 'New Item'));
           },
-          builder: (BuildContext context, AppViewModel viewModel) {
+          builder: (BuildContext context, VoidCallback onPressedCallback) {
             return FloatingActionButton(
-              onPressed: () => viewModel.addItem('New Item'),
+              onPressed: onPressedCallback,
               tooltip: 'Add',
               child: Icon(Icons.add),
             );
