@@ -12,13 +12,26 @@ class ItemsBloc {
 
   Sink<String> get addItem => _addItemController.sink; //@Input
 
+  List<StreamSubscription<dynamic>> _subscriptions;
+
   ItemsBloc() {
     _itemsStreamController = BehaviorSubject(seedValue: _items);
     _addItemController = StreamController<String>();
+
+    _subscriptions = <StreamSubscription<dynamic>>[
+      _addItemController.stream.listen(_addItem)
+    ];
   }
 
   dispose() {
     _itemsStreamController.close();
     _addItemController.close();
+    _subscriptions.forEach((subscription) => subscription.cancel());
+  }
+
+  void _addItem(String item) {
+    _items.add(item);
+
+    _itemsStreamController.add(_items);
   }
 }
