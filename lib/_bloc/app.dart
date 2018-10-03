@@ -31,7 +31,7 @@ class Page extends StatelessWidget {
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => itemsBloc.addItem.add('New Item'),
+          onPressed: () => itemsBloc.addItem.add(DateTime.now().toString()),
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));

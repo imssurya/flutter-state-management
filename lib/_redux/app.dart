@@ -36,7 +36,7 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: StoreConnector<AppState, VoidCallback>(
           converter: (Store<AppState> store) {
-            return () => store.dispatch(AddItemAction(payload: 'New Item'));
+            return () => store.dispatch(AddItemAction(payload: DateTime.now().toString()));
           },
           builder: (BuildContext context, VoidCallback onPressedCallback) {
             return FloatingActionButton(

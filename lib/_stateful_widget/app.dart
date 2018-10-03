@@ -34,7 +34,7 @@ class _PageState extends State<Page> {
       body: ListViewWidget(items: items),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() => items.add('New Item'));
+          setState(() => items.add(DateTime.now().toString()));
         },
         tooltip: 'Add',
         child: Icon(Icons.add),
