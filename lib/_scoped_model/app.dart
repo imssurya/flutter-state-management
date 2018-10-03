@@ -2,19 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_scoped_model/_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class App extends StatefulWidget {
-  @override
-  AppState createState() => AppState();
-}
-
-class AppState extends State<App> {
-  AppModel appModel;
-
-  @override
-  void initState() {
-    super.initState();
-    appModel = AppModel();
-  }
+class App extends StatelessWidget {
+  final AppModel appModel = AppModel();
 
   @override
   Widget build(BuildContext context) {
