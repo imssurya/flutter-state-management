@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_scoped_model/_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  AppState createState() => AppState();
+}
+
+class AppState extends State<App> {
+  AppModel appModel;
+
+  @override
+  void initState() {
+    super.initState();
+    appModel = AppModel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel<AppModel>(
-        model: AppModel(),
+        model: appModel,
         child: MaterialApp(
           title: 'Flutter Scoped Model Demo',
           theme: ThemeData(
@@ -32,7 +45,7 @@ class Page extends StatelessWidget {
         floatingActionButton: ScopedModelDescendant<AppModel>(
             builder: (BuildContext context, Widget child, AppModel model) {
           return FloatingActionButton(
-            onPressed: () => model.addItem('New Item'),
+            onPressed: () => model.addItem(DateTime.now().toString()),
             tooltip: 'Add',
             child: Icon(Icons.add),
           );
