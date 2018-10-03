@@ -3,16 +3,19 @@ import 'package:flutter_state_management/_bloc/_bloc.dart';
 import 'package:flutter_state_management/_bloc/_provider.dart';
 
 class App extends StatelessWidget {
+  final ItemsBloc itemsBloc = ItemsBloc();
+
   @override
   Widget build(BuildContext context) {
     return ItemsBlocProvider(
+        bloc: itemsBloc,
         child: MaterialApp(
-      title: 'Flutter BLoC Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Page(title: 'Flutter BLoC Demo'),
-    ));
+          title: 'Flutter BLoC Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: Page(title: 'Flutter BLoC Demo'),
+        ));
   }
 }
 
