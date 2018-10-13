@@ -1,13 +1,13 @@
-abstract class Action {
+abstract class Action<T> {
   ActionType type;
+  T payload;
 }
 
 enum ActionType { ADD_ITEM_ACTION }
 
-class AddItemAction implements Action {
+class AddItemAction implements Action<String> {
   ActionType type = ActionType.ADD_ITEM_ACTION;
-
-  final String payload;
+  String payload;
 
   AddItemAction({this.payload});
 }

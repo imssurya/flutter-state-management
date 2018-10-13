@@ -5,12 +5,15 @@ import 'package:rxdart/subjects.dart';
 class ItemsBloc {
   final List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
 
-  BehaviorSubject<List<String>> _itemsStreamController;
+  // Input sink
   StreamController<String> _addItemController;
 
-  Stream<List<String>> get items => _itemsStreamController.stream; //@Output
+  Sink<String> get addItem => _addItemController.sink;
 
-  Sink<String> get addItem => _addItemController.sink; //@Input
+  // Output stream
+  BehaviorSubject<List<String>> _itemsStreamController;
+
+  Stream<List<String>> get items => _itemsStreamController.stream;
 
   List<StreamSubscription<dynamic>> _subscriptions;
 
@@ -18,9 +21,7 @@ class ItemsBloc {
     _itemsStreamController = BehaviorSubject(seedValue: _items);
     _addItemController = StreamController<String>();
 
-    _subscriptions = <StreamSubscription<dynamic>>[
-      _addItemController.stream.listen(_addItem)
-    ];
+    _subscriptions = <StreamSubscription<dynamic>>[_addItemController.stream.listen(_addItem)];
   }
 
   dispose() {

@@ -3,7 +3,7 @@ import 'package:flutter_state_management/_bloc/_bloc.dart';
 import 'package:flutter_state_management/_bloc/_provider.dart';
 
 class App extends StatelessWidget {
-  final ItemsBloc itemsBloc = ItemsBloc();
+  final ItemsBloc itemsBloc = ItemsBloc(); // there's no DI system in Flutter so far
 
   @override
   Widget build(BuildContext context) {
