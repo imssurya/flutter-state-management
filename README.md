@@ -8,4 +8,5 @@ A Flutter application showing different patterns of state management:
 * [**Scoped Model**](https://github.com/udos86/flutter-state-management/tree/master/lib/_scoped_model)
 * [**Redux**](https://github.com/udos86/flutter-state-management/tree/master/lib/_redux)
 * [**Business Logic Components (BLoC)**](https://github.com/udos86/flutter-state-management/tree/master/lib/_bloc)
+* [**Business Logic Components (BLoC) with Library**](https://github.com/udos86/flutter-state-management/tree/master/lib/_bloc_lib)
 * [**MobX**](https://github.com/udos86/flutter-state-management/tree/master/lib/_mobx)

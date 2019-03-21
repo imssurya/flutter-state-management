@@ -37,10 +37,10 @@ class ItemsBloc {
 
   void _mapEventToState(ItemEvent event) {
     if (event is AddItemEvent) {
-      _items.add(event.payload);
+      _items.add(event.item);
       _itemsStateSink.add(_items);
     } else if (event is AddItemsEvent) {
-      _items.addAll(event.payload);
+      _items.addAll(event.items);
       _itemsStateSink.add(_items);
     }
   }

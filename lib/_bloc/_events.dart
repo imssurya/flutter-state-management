@@ -1,13 +1,13 @@
 abstract class ItemEvent {}
 
 class AddItemEvent extends ItemEvent {
-  final String payload;
+  final String item;
 
-  AddItemEvent(this.payload);
+  AddItemEvent(this.item);
 }
 
 class AddItemsEvent extends ItemEvent {
-  final List<String> payload;
+  final List<String> items;
 
-  AddItemsEvent(this.payload);
+  AddItemsEvent(this.items);
 }
