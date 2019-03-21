@@ -11,3 +11,15 @@ class AddItemsEvent extends ItemEvent {
 
   AddItemsEvent(this.items);
 }
+
+class CheckItemEvent extends ItemEvent {
+  final int itemId;
+
+  CheckItemEvent(this.itemId);
+}
+
+class UncheckItemEvent extends ItemEvent {
+  final int itemId;
+
+  UncheckItemEvent(this.itemId);
+}

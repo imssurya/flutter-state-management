@@ -10,11 +10,15 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final ItemsBloc _itemsBloc = ItemsBloc();
+  final CheckedItemsBloc _checkedItemsBloc = CheckedItemsBloc();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ItemsBloc>(
-        bloc: _itemsBloc,
+    return BlocProviderTree(
+        blocProviders: [
+          BlocProvider<ItemsBloc>(bloc: _itemsBloc),
+          BlocProvider<CheckedItemsBloc>(bloc: _checkedItemsBloc)
+        ],
         child: MaterialApp(
           title: 'BLoC Lib Sample',
           theme: ThemeData(
@@ -27,6 +31,7 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     _itemsBloc.dispose();
+    _checkedItemsBloc.dispose();
     super.dispose();
   }
 }
@@ -65,11 +70,22 @@ class ListViewWidget extends StatelessWidget {
         builder: (BuildContext context, List<String> items) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-              itemCount: items is List<String> ? items.length : 0,
+              itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(items[index]),
-                );
+                final CheckedItemsBloc _checkedItemsBloc =
+                    BlocProvider.of<CheckedItemsBloc>(context);
+
+                return BlocBuilder(
+                    bloc: _checkedItemsBloc,
+                    builder: (BuildContext context, Set<int> checkedItemIds) {
+                      return CheckboxListTile(
+                          title: Text(items[index]),
+                          value: checkedItemIds.contains(index),
+                          onChanged: (bool value) {
+                            final event = value ? CheckItemEvent(index) : UncheckItemEvent(index);
+                            _checkedItemsBloc.dispatch(event);
+                          });
+                    });
               });
         });
   }

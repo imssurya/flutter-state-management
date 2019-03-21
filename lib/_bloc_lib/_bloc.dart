@@ -14,3 +14,17 @@ class ItemsBloc extends Bloc<ItemEvent, List<String>> {
     }
   }
 }
+
+class CheckedItemsBloc extends Bloc<ItemEvent, Set<int>> {
+  @override
+  Set<int> get initialState => Set();
+
+  @override
+  Stream<Set<int>> mapEventToState(Set<int> currentState, ItemEvent event) async* {
+    if (event is CheckItemEvent) {
+      yield Set.from(currentState)..add(event.itemId);
+    } else if (event is UncheckItemEvent) {
+      yield Set.from(currentState)..remove(event.itemId);
+    }
+  }
+}
