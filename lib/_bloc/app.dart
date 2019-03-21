@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_bloc/_bloc.dart';
+import 'package:flutter_state_management/_bloc/_events.dart';
 import 'package:flutter_state_management/_bloc/_provider.dart';
 
 class App extends StatelessWidget {
@@ -11,11 +12,11 @@ class App extends StatelessWidget {
     return ItemsBlocProvider(
         bloc: itemsBloc,
         child: MaterialApp(
-          title: 'Flutter BLoC Demo',
+          title: 'Flutter BLoC Sample',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Page(title: 'Flutter BLoC Demo'),
+          home: Page(title: 'Flutter BLoC Sample'),
         ));
   }
 }
@@ -35,7 +36,9 @@ class Page extends StatelessWidget {
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => itemsBloc.addItem.add(DateTime.now().toString()),
+          onPressed: () {
+            itemsBloc.itemsEventSink.add(AddItemEvent(DateTime.now().toString()));
+          },
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));

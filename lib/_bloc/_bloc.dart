@@ -1,46 +1,47 @@
 import 'dart:async';
 
-import 'package:rxdart/subjects.dart';
+import 'package:flutter_state_management/_bloc/_events.dart';
+
+//import 'package:rxdart/subjects.dart';
 
 class ItemsBloc {
   final List<String> _items = [];
+  final Set<int> _checkedItems = Set();
 
-  // Input sink
-  StreamController<String> _addItemController;
+  final StreamController<ItemEvent> _itemsEventController = StreamController();
 
-  Sink<String> get addItem => _addItemController.sink;
+  StreamSink<ItemEvent> get itemsEventSink => _itemsEventController.sink;
 
-  // Output stream
-  StreamController<List<String>> _itemsStreamController;
+  final StreamController<List<String>> _itemsStateController =
+      StreamController();
 
-  Stream<List<String>> get items => _itemsStreamController.stream;
+  StreamSink<List<String>> get _itemsStateSink => _itemsStateController.sink;
+
+  Stream<List<String>> get items => _itemsStateController.stream;
 
   List<StreamSubscription<dynamic>> _subscriptions;
 
   ItemsBloc({List<String> seedValue = const []}) {
-    _itemsStreamController = StreamController();
-    _addItemController = StreamController();
+    _subscriptions = <StreamSubscription<dynamic>>[
+      _itemsEventController.stream.listen(_mapEventToState)
+    ];
 
-    _subscriptions = <StreamSubscription<dynamic>>[_addItemController.stream.listen(_addItem)];
-
-    _addItems(seedValue);
+    itemsEventSink.add(AddItemsEvent(seedValue));
   }
 
   dispose() {
-    _itemsStreamController.close();
-    _addItemController.close();
+    _itemsStateController.close();
+    _itemsEventController.close();
     _subscriptions.forEach((subscription) => subscription.cancel());
   }
 
-  void _addItem(String item) {
-    _items.add(item);
-
-    _itemsStreamController.add(_items);
-  }
-
-  void _addItems(List<String> items) {
-    _items.addAll(items);
-
-    _itemsStreamController.add(_items);
+  void _mapEventToState(ItemEvent event) {
+    if (event is AddItemEvent) {
+      _items.add(event.payload);
+      _itemsStateSink.add(_items);
+    } else if (event is AddItemsEvent) {
+      _items.addAll(event.payload);
+      _itemsStateSink.add(_items);
+    }
   }
 }
