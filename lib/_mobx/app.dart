@@ -8,11 +8,11 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter MobX Demo',
+      title: 'Flutter MobX Sample',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Page(title: 'Flutter MobX Demo'),
+      home: Page(title: 'Flutter MobX Sample'),
     );
   }
 }
@@ -27,6 +27,13 @@ class Page extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          actions: store.checkedItems.isEmpty ? [] : <Widget>[
+            IconButton(
+              icon: Icon(Icons.delete),
+              tooltip: 'Delete',
+              onPressed: () => true,
+            )
+          ]
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
@@ -45,9 +52,14 @@ class ListViewWidget extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
           itemCount: store.items.length,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(store.items[index]),
-            );
+            return Observer(builder: (_) {
+              return CheckboxListTile(
+                  title: Text(store.items[index]),
+                  value: store.checkedItems.contains(index),
+                  onChanged: (bool value) {
+                    value ? store.addCheckedItem(index) : store.removeCheckedItem(index);
+                  });
+            });
           });
     });
   }
