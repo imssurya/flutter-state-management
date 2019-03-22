@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_state_management/_bloc_lib/_bloc.dart';
-import 'package:flutter_state_management/_bloc/_events.dart';
+import 'package:flutter_state_management/_bloc_lib/_blocs.dart';
+import 'package:flutter_state_management/_bloc_lib/_events.dart';
+import 'package:flutter_state_management/_bloc_lib/_states.dart';
 import 'package:flutter_state_management/item.model.dart';
 
 class App extends StatefulWidget {
@@ -45,8 +46,7 @@ class Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ItemsBloc _itemsBloc = BlocProvider.of<ItemsBloc>(context);
-    final CheckedItemsBloc _checkedItemsBloc =
-        BlocProvider.of<CheckedItemsBloc>(context);
+    final CheckedItemsBloc _checkedItemsBloc = BlocProvider.of<CheckedItemsBloc>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -54,17 +54,15 @@ class Page extends StatelessWidget {
           actions: <Widget>[
             BlocBuilder(
                 bloc: _checkedItemsBloc,
-                builder: (BuildContext context, Set<String> checkedItemIds) {
+                builder: (BuildContext context, CheckedItemsState checkedItemsState) {
                   return Visibility(
-                      visible: checkedItemIds.isNotEmpty,
+                      visible: checkedItemsState.itemIds.isNotEmpty,
                       child: IconButton(
                           icon: Icon(Icons.delete),
                           tooltip: 'Delete selected items',
                           onPressed: () {
-                            _itemsBloc
-                                .dispatch(RemoveItemsEvent(checkedItemIds));
-                            _checkedItemsBloc
-                                .dispatch(ClearCheckedItemsEvent());
+                            _itemsBloc.dispatch(RemoveItemsEvent(checkedItemsState.itemIds));
+                            _checkedItemsBloc.dispatch(ClearCheckedItemsEvent());
                           }));
                 })
           ],
@@ -72,8 +70,7 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _itemsBloc
-                .dispatch(AddItemEvent(Item(title: DateTime.now().toString())));
+            _itemsBloc.dispatch(AddItemEvent(Item(title: DateTime.now().toString())));
           },
           tooltip: 'Add',
           child: Icon(Icons.add),
@@ -86,29 +83,27 @@ class ListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ItemsBloc _itemsBloc = BlocProvider.of<ItemsBloc>(context);
 
-    return BlocBuilder<ItemEvent, List<Item>>(
+    return BlocBuilder<ItemsEvent, ItemsState>(
         bloc: _itemsBloc,
-        builder: (BuildContext context, List<Item> items) {
+        builder: (BuildContext context, ItemsState itemsState) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-              itemCount: items.length,
+              itemCount: itemsState.items.length,
               itemBuilder: (BuildContext context, int index) {
                 final CheckedItemsBloc _checkedItemsBloc =
                     BlocProvider.of<CheckedItemsBloc>(context);
 
                 return BlocBuilder(
                     bloc: _checkedItemsBloc,
-                    builder:
-                        (BuildContext context, Set<String> checkedItemIds) {
-                      final item = items[index];
+                    builder: (BuildContext context, CheckedItemsState checkedItemsState) {
+                      final item = itemsState.items[index];
 
                       return CheckboxListTile(
                           title: Text(item.title),
-                          value: checkedItemIds.contains(item.id),
+                          value: checkedItemsState.itemIds.contains(item.id),
                           onChanged: (bool value) {
-                            final event = value
-                                ? CheckItemEvent(item.id)
-                                : UncheckItemEvent(item.id);
+                            final event =
+                                value ? CheckItemEvent(item.id) : UncheckItemEvent(item.id);
                             _checkedItemsBloc.dispatch(event);
                           });
                     });

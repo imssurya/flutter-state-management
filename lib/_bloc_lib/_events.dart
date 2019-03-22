@@ -1,37 +1,37 @@
 import 'package:flutter_state_management/item.model.dart';
 
-abstract class ItemEvent {}
+abstract class ItemsEvent {}
 
-class AddItemEvent extends ItemEvent {
+class AddItemEvent extends ItemsEvent {
   final Item item;
 
   AddItemEvent(this.item);
 }
 
-class AddItemsEvent extends ItemEvent {
+class AddItemsEvent extends ItemsEvent {
   final List<Item> items;
 
   AddItemsEvent(this.items);
 }
 
-class RemoveItemsEvent extends ItemEvent {
+class RemoveItemsEvent extends ItemsEvent {
   final Set<String> itemIds;
 
   RemoveItemsEvent(this.itemIds);
 }
 
-class CheckItemEvent extends ItemEvent {
+class CheckItemEvent extends ItemsEvent {
   final String itemId;
 
   CheckItemEvent(this.itemId);
 }
 
-class UncheckItemEvent extends ItemEvent {
+class UncheckItemEvent extends ItemsEvent {
   final String itemId;
 
   UncheckItemEvent(this.itemId);
 }
 
-class ClearCheckedItemsEvent extends ItemEvent {
+class ClearCheckedItemsEvent extends ItemsEvent {
   ClearCheckedItemsEvent();
 }

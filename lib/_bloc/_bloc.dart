@@ -1,17 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter_state_management/_bloc/_events.dart';
+import 'package:flutter_state_management/_bloc_lib/_events.dart';
 import 'package:flutter_state_management/item.model.dart';
 
 //import 'package:rxdart/subjects.dart';
 
 class ItemsBloc {
   final List<Item> _items = [];
-  final Set<String> _checkedItems = Set();
 
-  final StreamController<ItemEvent> _itemsEventController = StreamController();
+  final StreamController<ItemsEvent> _itemsEventController = StreamController();
 
-  StreamSink<ItemEvent> get itemsEventSink => _itemsEventController.sink;
+  StreamSink<ItemsEvent> get itemsEventSink => _itemsEventController.sink;
 
   final StreamController<List<Item>> _itemsStateController =
       StreamController();
@@ -36,7 +35,7 @@ class ItemsBloc {
     _subscriptions.forEach((subscription) => subscription.cancel());
   }
 
-  void _mapEventToState(ItemEvent event) {
+  void _mapEventToState(ItemsEvent event) {
     if (event is AddItemEvent) {
       _items.add(event.item);
       _itemsStateSink.add(_items);
