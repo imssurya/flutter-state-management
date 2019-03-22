@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_inherited_widget/_state.dart';
+import 'package:flutter_state_management/item.model.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStateContainer(
-      initialState: AppStateModel(items: ['Item 1', 'Item 2', 'Item 3']),
+      initialState: AppStateModel(items: sampleItems),
       child: MaterialApp(
-          title: 'Flutter BLoC Demo',
+          title: 'Inherited Widget Sample',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Page(title: 'Flutter Inherited Widget Demo')),
+          home: Page(title: 'Inherited Widget Sample')),
     );
   }
 }
@@ -31,7 +32,8 @@ class Page extends StatelessWidget {
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => state.addItem(DateTime.now().toString()),
+          onPressed: () =>
+              state.addItem(Item(title: DateTime.now().toString())),
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));
@@ -44,14 +46,14 @@ class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppState state = AppStateContainer.of(context);
-    final List<String> items = state.items;
+    final List<Item> items = state.items;
 
     return ListView.builder(
         padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(items[index]),
+            title: Text(items[index].title),
           );
         });
   }

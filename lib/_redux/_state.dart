@@ -1,7 +1,9 @@
+import 'package:flutter_state_management/item.model.dart';
+
 class AppState {
-  final List<String> items;
+  final List<Item> items;
 
   AppState({this.items});
 
-  AppState.initialState() : items = ['Item 1', 'Item 2', 'Item 3']; //Dart Named Constructor
+  AppState.initialState() : items = sampleItems; //Dart Named Constructor
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_state_management/item.model.dart';
 
 class _AppStateWidget extends InheritedWidget {
   _AppStateWidget({
@@ -34,20 +35,20 @@ class AppStateContainer extends StatefulWidget {
 class AppStateModel {
   AppStateModel({this.items = const []});
 
-  List<String> items;
+  List<Item> items;
 }
 
 class AppState extends State<AppStateContainer> implements AppStateModel {
   AppState({AppStateModel initialState}) : items = initialState.items;
 
-  List<String> items;
+  List<Item> items;
 
   @override
   Widget build(BuildContext context) {
     return _AppStateWidget(state: this, child: widget.child);
   }
 
-  void addItem(String item) {
+  void addItem(Item item) {
     setState(() {
       items.add(item);
     });

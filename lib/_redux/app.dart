@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_state_management/_redux/_actions.dart';
 import 'package:flutter_state_management/_redux/_reducers.dart';
 import 'package:flutter_state_management/_redux/_state.dart';
+import 'package:flutter_state_management/item.model.dart';
 import 'package:redux/redux.dart';
 
 class App extends StatelessWidget {
@@ -13,11 +14,11 @@ class App extends StatelessWidget {
     return StoreProvider<AppState>(
         store: store,
         child: MaterialApp(
-          title: 'Flutter Redux Demo',
+          title: 'Redux Sample',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Page(title: 'Flutter Redux Demo'),
+          home: Page(title: 'Redux Sample'),
         ));
   }
 }
@@ -36,7 +37,7 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: StoreConnector<AppState, VoidCallback>(
           converter: (Store<AppState> store) {
-            return () => store.dispatch(AddItemAction(payload: DateTime.now().toString()));
+            return () => store.dispatch(AddItemAction(payload: Item(title: DateTime.now().toString())));
           },
           builder: (BuildContext context, VoidCallback onPressedCallback) {
             return FloatingActionButton(
@@ -52,15 +53,15 @@ class Page extends StatelessWidget {
 class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<Item>>(
       converter: (Store<AppState> store) => store.state.items,
-      builder: (BuildContext context, List<String> items) {
+      builder: (BuildContext context, List<Item> items) {
         return ListView.builder(
             padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(items[index]),
+                title: Text(items[index].title),
               );
             });
       },

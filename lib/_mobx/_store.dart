@@ -7,7 +7,7 @@ class AppStore = _AppStore with _$AppStore;
 
 abstract class _AppStore implements Store {
   @observable
-  ObservableList<Item> items = ObservableList<Item>.of([]);
+  ObservableList<Item> items = ObservableList<Item>.of(sampleItems);
 
   @observable
   ObservableSet<String> checkedItemIds = ObservableSet<String>();

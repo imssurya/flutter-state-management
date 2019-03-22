@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_scoped_model/_model.dart';
+import 'package:flutter_state_management/item.model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class App extends StatelessWidget {
@@ -10,11 +11,11 @@ class App extends StatelessWidget {
     return ScopedModel<AppModel>(
         model: appModel,
         child: MaterialApp(
-          title: 'Flutter Scoped Model Demo',
+          title: 'Scoped Model Sample',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Page(title: 'Flutter Scoped Model Demo'),
+          home: Page(title: 'Scoped Model Sample'),
         ));
   }
 }
@@ -34,7 +35,8 @@ class Page extends StatelessWidget {
         floatingActionButton: ScopedModelDescendant<AppModel>(
             builder: (BuildContext context, Widget child, AppModel model) {
           return FloatingActionButton(
-            onPressed: () => model.addItem(DateTime.now().toString()),
+            onPressed: () =>
+                model.addItem(Item(title: DateTime.now().toString())),
             tooltip: 'Add',
             child: Icon(Icons.add),
           );
@@ -52,7 +54,7 @@ class ListViewWidget extends StatelessWidget {
           itemCount: model.items.length,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Text(model.items[index]),
+              title: Text(model.items[index].title),
             );
           });
     });

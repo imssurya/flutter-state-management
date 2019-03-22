@@ -4,8 +4,7 @@ import 'package:flutter_state_management/item.model.dart';
 
 class ItemsBloc extends Bloc<ItemEvent, List<Item>> {
   @override
-  List<Item> get initialState =>
-      [Item(title: 'Item 1'), Item(title: 'Item 2'), Item(title: 'Item 3')];
+  List<Item> get initialState => sampleItems;
 
   @override
   Stream<List<Item>> mapEventToState(

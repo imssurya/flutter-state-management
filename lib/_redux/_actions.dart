@@ -1,3 +1,5 @@
+import 'package:flutter_state_management/item.model.dart';
+
 abstract class Action<T> {
   ActionType type;
   T payload;
@@ -5,9 +7,9 @@ abstract class Action<T> {
 
 enum ActionType { ADD_ITEM_ACTION }
 
-class AddItemAction implements Action<String> {
+class AddItemAction implements Action<Item> {
   ActionType type = ActionType.ADD_ITEM_ACTION;
-  String payload;
+  Item payload;
 
   AddItemAction({this.payload});
 }

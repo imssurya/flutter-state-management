@@ -5,11 +5,8 @@ import 'package:flutter_state_management/_bloc/_provider.dart';
 import 'package:flutter_state_management/item.model.dart';
 
 class App extends StatelessWidget {
-  final ItemsBloc itemsBloc = ItemsBloc(seedValue: [
-    Item(title: 'Item 1'),
-    Item(title: 'Item 2'),
-    Item(title: 'Item 3')
-  ]); // there's no DI system in Flutter so far
+  final ItemsBloc itemsBloc = ItemsBloc(
+      seedValue: sampleItems); // there's no DI system in Flutter so far
 
   @override
   Widget build(BuildContext context) {
