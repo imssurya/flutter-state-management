@@ -1,3 +1,4 @@
+import 'package:flutter_state_management/item.model.dart';
 import 'package:mobx/mobx.dart';
 
 part '_store.g.dart';
@@ -6,28 +7,28 @@ class AppStore = _AppStore with _$AppStore;
 
 abstract class _AppStore implements Store {
   @observable
-  ObservableList<String> items = ObservableList<String>.of(['Item 1', 'Item 2', 'Item 3']);
+  ObservableList<Item> items = ObservableList<Item>.of([]);
 
   @observable
-  ObservableSet<int> checkedItems = ObservableSet<int>();
+  ObservableSet<String> checkedItemIds = ObservableSet<String>();
 
   @action
-  void addItem(String item) {
+  void addItem(Item item) {
     this.items.add(item);
   }
 
   @action
-  void removeItem(String item) {
+  void removeItem(Item item) {
     this.items.remove(item);
   }
 
   @action
-  void addCheckedItem(int itemId) {
-    this.checkedItems.add(itemId);
+  void addCheckedItem(String itemId) {
+    this.checkedItemIds.add(itemId);
   }
 
   @action
-  void removeCheckedItem(int itemId) {
-    this.checkedItems.remove(itemId);
+  void removeCheckedItem(String itemId) {
+    this.checkedItemIds.remove(itemId);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_state_management/_mobx/_store.dart';
+import 'package:flutter_state_management/item.model.dart';
 
 final store = AppStore();
 
@@ -8,11 +9,11 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter MobX Sample',
+      title: 'MobX Sample',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Page(title: 'Flutter MobX Sample'),
+      home: Page(title: 'MobX Sample'),
     );
   }
 }
@@ -26,18 +27,21 @@ class Page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(title),
-          actions: store.checkedItems.isEmpty ? [] : <Widget>[
-            IconButton(
-              icon: Icon(Icons.delete),
-              tooltip: 'Delete',
-              onPressed: () => true,
-            )
-          ]
-        ),
+            title: Text(title),
+            actions: store.checkedItemIds.isEmpty
+                ? []
+                : <Widget>[
+              IconButton(
+                icon: Icon(Icons.delete),
+                tooltip: 'Delete',
+                onPressed: () => true,
+              )
+            ]),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => store.addItem(DateTime.now().toString()),
+          onPressed: () {
+            store.addItem(Item(title: DateTime.now().toString()));
+          },
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));
@@ -53,11 +57,15 @@ class ListViewWidget extends StatelessWidget {
           itemCount: store.items.length,
           itemBuilder: (BuildContext context, int index) {
             return Observer(builder: (_) {
+              final item = store.items[index];
+
               return CheckboxListTile(
-                  title: Text(store.items[index]),
-                  value: store.checkedItems.contains(index),
+                  title: Text(item.title),
+                  value: store.checkedItemIds.contains(item.id),
                   onChanged: (bool value) {
-                    value ? store.addCheckedItem(index) : store.removeCheckedItem(index);
+                    value
+                        ? store.addCheckedItem(item.id)
+                        : store.removeCheckedItem(item.id);
                   });
             });
           });

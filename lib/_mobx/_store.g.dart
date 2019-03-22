@@ -12,37 +12,37 @@ mixin _$AppStore on _AppStore, Store {
   final _$itemsAtom = Atom(name: '_AppStore.items');
 
   @override
-  ObservableList<String> get items {
+  ObservableList<Item> get items {
     _$itemsAtom.reportObserved();
     return super.items;
   }
 
   @override
-  set items(ObservableList<String> value) {
+  set items(ObservableList<Item> value) {
     mainContext.checkIfStateModificationsAreAllowed(_$itemsAtom);
     super.items = value;
     _$itemsAtom.reportChanged();
   }
 
-  final _$checkedItemsAtom = Atom(name: '_AppStore.checkedItems');
+  final _$checkedItemIdsAtom = Atom(name: '_AppStore.checkedItemIds');
 
   @override
-  ObservableSet<int> get checkedItems {
-    _$checkedItemsAtom.reportObserved();
-    return super.checkedItems;
+  ObservableSet<String> get checkedItemIds {
+    _$checkedItemIdsAtom.reportObserved();
+    return super.checkedItemIds;
   }
 
   @override
-  set checkedItems(ObservableSet<int> value) {
-    mainContext.checkIfStateModificationsAreAllowed(_$checkedItemsAtom);
-    super.checkedItems = value;
-    _$checkedItemsAtom.reportChanged();
+  set checkedItemIds(ObservableSet<String> value) {
+    mainContext.checkIfStateModificationsAreAllowed(_$checkedItemIdsAtom);
+    super.checkedItemIds = value;
+    _$checkedItemIdsAtom.reportChanged();
   }
 
   final _$_AppStoreActionController = ActionController(name: '_AppStore');
 
   @override
-  void addItem(String item) {
+  void addItem(Item item) {
     final _$actionInfo = _$_AppStoreActionController.startAction();
     try {
       return super.addItem(item);
@@ -52,7 +52,7 @@ mixin _$AppStore on _AppStore, Store {
   }
 
   @override
-  void removeItem(String item) {
+  void removeItem(Item item) {
     final _$actionInfo = _$_AppStoreActionController.startAction();
     try {
       return super.removeItem(item);
@@ -62,7 +62,7 @@ mixin _$AppStore on _AppStore, Store {
   }
 
   @override
-  void addCheckedItem(int itemId) {
+  void addCheckedItem(String itemId) {
     final _$actionInfo = _$_AppStoreActionController.startAction();
     try {
       return super.addCheckedItem(itemId);
@@ -72,7 +72,7 @@ mixin _$AppStore on _AppStore, Store {
   }
 
   @override
-  void removeCheckedItem(int itemId) {
+  void removeCheckedItem(String itemId) {
     final _$actionInfo = _$_AppStoreActionController.startAction();
     try {
       return super.removeCheckedItem(itemId);
