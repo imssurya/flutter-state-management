@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_state_management/_bloc_lib/_bloc.dart';
 import 'package:flutter_state_management/_bloc/_events.dart';
+import 'package:flutter_state_management/item.model.dart';
 
 class App extends StatefulWidget {
   @override
@@ -44,15 +45,35 @@ class Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ItemsBloc _itemsBloc = BlocProvider.of<ItemsBloc>(context);
+    final CheckedItemsBloc _checkedItemsBloc =
+        BlocProvider.of<CheckedItemsBloc>(context);
 
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          actions: <Widget>[
+            BlocBuilder(
+                bloc: _checkedItemsBloc,
+                builder: (BuildContext context, Set<String> checkedItemIds) {
+                  return Visibility(
+                      visible: checkedItemIds.isNotEmpty,
+                      child: IconButton(
+                          icon: Icon(Icons.delete),
+                          tooltip: 'Delete selected items',
+                          onPressed: () {
+                            _itemsBloc
+                                .dispatch(RemoveItemsEvent(checkedItemIds));
+                            _checkedItemsBloc
+                                .dispatch(ClearCheckedItemsEvent());
+                          }));
+                })
+          ],
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _itemsBloc.dispatch(AddItemEvent(DateTime.now().toString()));
+            _itemsBloc
+                .dispatch(AddItemEvent(Item(title: DateTime.now().toString())));
           },
           tooltip: 'Add',
           child: Icon(Icons.add),
@@ -65,9 +86,9 @@ class ListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ItemsBloc _itemsBloc = BlocProvider.of<ItemsBloc>(context);
 
-    return BlocBuilder<ItemEvent, List<String>>(
+    return BlocBuilder<ItemEvent, List<Item>>(
         bloc: _itemsBloc,
-        builder: (BuildContext context, List<String> items) {
+        builder: (BuildContext context, List<Item> items) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
               itemCount: items.length,
@@ -77,12 +98,17 @@ class ListViewWidget extends StatelessWidget {
 
                 return BlocBuilder(
                     bloc: _checkedItemsBloc,
-                    builder: (BuildContext context, Set<int> checkedItemIds) {
+                    builder:
+                        (BuildContext context, Set<String> checkedItemIds) {
+                      final item = items[index];
+
                       return CheckboxListTile(
-                          title: Text(items[index]),
-                          value: checkedItemIds.contains(index),
+                          title: Text(item.title),
+                          value: checkedItemIds.contains(item.id),
                           onChanged: (bool value) {
-                            final event = value ? CheckItemEvent(index) : UncheckItemEvent(index);
+                            final event = value
+                                ? CheckItemEvent(item.id)
+                                : UncheckItemEvent(item.id);
                             _checkedItemsBloc.dispatch(event);
                           });
                     });

@@ -1,27 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter_state_management/_bloc/_events.dart';
+import 'package:flutter_state_management/item.model.dart';
 
 //import 'package:rxdart/subjects.dart';
 
 class ItemsBloc {
-  final List<String> _items = [];
-  final Set<int> _checkedItems = Set();
+  final List<Item> _items = [];
+  final Set<String> _checkedItems = Set();
 
   final StreamController<ItemEvent> _itemsEventController = StreamController();
 
   StreamSink<ItemEvent> get itemsEventSink => _itemsEventController.sink;
 
-  final StreamController<List<String>> _itemsStateController =
+  final StreamController<List<Item>> _itemsStateController =
       StreamController();
 
-  StreamSink<List<String>> get _itemsStateSink => _itemsStateController.sink;
+  StreamSink<List<Item>> get _itemsStateSink => _itemsStateController.sink;
 
-  Stream<List<String>> get items => _itemsStateController.stream;
+  Stream<List<Item>> get items => _itemsStateController.stream;
 
   List<StreamSubscription<dynamic>> _subscriptions;
 
-  ItemsBloc({List<String> seedValue = const []}) {
+  ItemsBloc({List<Item> seedValue = const []}) {
     _subscriptions = <StreamSubscription<dynamic>>[
       _itemsEventController.stream.listen(_mapEventToState)
     ];

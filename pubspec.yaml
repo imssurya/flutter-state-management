@@ -16,6 +16,7 @@ dependencies:
   redux:
   rxdart:
   scoped_model:
+  uuid:
 
 dev_dependencies:
   flutter_test:
