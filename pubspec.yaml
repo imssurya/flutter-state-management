@@ -9,9 +9,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   bloc:
+  equatable:
   flutter_bloc:
   flutter_mobx:
   flutter_redux:
+  meta:
   mobx:
   redux:
   rxdart:

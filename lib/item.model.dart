@@ -1,10 +1,15 @@
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
-class Item {
+@immutable
+class Item extends Equatable {
   final String id;
-  String title;
+  final String title;
 
-  Item({String id, this.title}) : id = id != null ? id : Uuid().v1();
+  Item({String id, this.title})
+      : this.id = id ?? Uuid().v4(),
+        super([id, title]);
 }
 
 final List<Item> sampleItems = [
