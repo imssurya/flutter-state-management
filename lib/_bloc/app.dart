@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_bloc/_bloc.dart';
 import 'package:flutter_state_management/_bloc/_provider.dart';
-import 'package:flutter_state_management/_bloc_lib/_events/entity.events.dart';
+import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
 import 'package:flutter_state_management/item.model.dart';
 
 class App extends StatelessWidget {

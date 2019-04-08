@@ -7,8 +7,7 @@ class ItemSelectionBloc extends Bloc<ItemSelectionEvent, ItemSelectionState> {
   ItemSelectionState get initialState => ItemSelectionState([]);
 
   @override
-  Stream<ItemSelectionState> mapEventToState(
-      ItemSelectionState currentState, ItemSelectionEvent event) async* {
+  Stream<ItemSelectionState> mapEventToState(ItemSelectionEvent event) async* {
     if (event is SelectItemEvent) {
       final List<String> checkedItemIds = List.from(currentState.ids)..add(event.itemId);
 

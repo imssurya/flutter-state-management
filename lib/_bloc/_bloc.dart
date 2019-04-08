@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_state_management/_bloc_lib/_events/entity.events.dart';
+import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
+import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
 import 'package:flutter_state_management/item.model.dart';
 
 //import 'package:rxdart/subjects.dart';
@@ -8,9 +9,9 @@ import 'package:flutter_state_management/item.model.dart';
 class ItemsBloc {
   final List<Item> _items = [];
 
-  final StreamController<ItemEntityEvent> _itemsEventController = StreamController();
+  final StreamController<EntityEvent<Item>> _itemsEventController = StreamController();
 
-  StreamSink<ItemEntityEvent> get itemsEventSink => _itemsEventController.sink;
+  StreamSink<EntityEvent<Item>> get itemsEventSink => _itemsEventController.sink;
 
   final StreamController<List<Item>> _itemsStateController = StreamController();
 
@@ -34,7 +35,7 @@ class ItemsBloc {
     _subscriptions.forEach((subscription) => subscription.cancel());
   }
 
-  void _mapEventToState(ItemEntityEvent event) {
+  void _mapEventToState(EntityEvent<Item> event) {
     if (event is AddItemEvent) {
       _items.add(event.item);
       _itemsStateSink.add(_items);

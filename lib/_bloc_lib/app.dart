@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_state_management/_bloc_lib/_blocs/entity.bloc.dart';
+import 'package:flutter_state_management/_bloc_lib/_blocs/item.bloc.dart';
 import 'package:flutter_state_management/_bloc_lib/_blocs/selection.bloc.dart';
-import 'package:flutter_state_management/_bloc_lib/_events/entity.events.dart';
-import 'package:flutter_state_management/_bloc_lib/_states/entity.state.dart';
+import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
+import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
+import 'package:flutter_state_management/_bloc_lib/_states/item.state.dart';
 import 'package:flutter_state_management/_bloc_lib/_events/selection.events.dart';
 import 'package:flutter_state_management/_bloc_lib/_states/selection.state.dart';
 import 'package:flutter_state_management/item.model.dart';
@@ -86,12 +87,12 @@ class ListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ItemEntityBloc _itemEntityBloc = BlocProvider.of<ItemEntityBloc>(context);
 
-    return BlocBuilder<ItemEntityEvent, ItemEntityState>(
+    return BlocBuilder<EntityEvent, ItemEntityState>(
         bloc: _itemEntityBloc,
         builder: (BuildContext context, ItemEntityState entityState) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-              itemCount: entityState.items.length,
+              itemCount: entityState.entities.length,
               itemBuilder: (BuildContext context, int index) {
                 final ItemSelectionBloc _itemSelectionBloc =
                     BlocProvider.of<ItemSelectionBloc>(context);
@@ -99,7 +100,7 @@ class ListViewWidget extends StatelessWidget {
                 return BlocBuilder(
                     bloc: _itemSelectionBloc,
                     builder: (BuildContext context, ItemSelectionState selectionState) {
-                      final item = entityState.items[index];
+                      final item = entityState.entities[index];
 
                       return CheckboxListTile(
                           title: Text(item.title),

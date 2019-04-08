@@ -1,15 +1,11 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
 import 'package:meta/meta.dart';
-import 'package:uuid/uuid.dart';
 
 @immutable
-class Item extends Equatable {
-  final String id;
+class Item extends Entity {
   final String title;
 
-  Item({String id, this.title})
-      : this.id = id ?? Uuid().v4(),
-        super([id, title]);
+  Item({String id, this.title}) : super(id, [title]);
 }
 
 final List<Item> sampleItems = [
