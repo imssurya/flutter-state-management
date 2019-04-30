@@ -6,7 +6,7 @@ part of '_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies
+// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars
 
 mixin _$AppStore on _AppStore, Store {
   final _$itemsAtom = Atom(name: '_AppStore.items');
@@ -19,7 +19,7 @@ mixin _$AppStore on _AppStore, Store {
 
   @override
   set items(ObservableList<Item> value) {
-    mainContext.checkIfStateModificationsAreAllowed(_$itemsAtom);
+    _$itemsAtom.context.checkIfStateModificationsAreAllowed(_$itemsAtom);
     super.items = value;
     _$itemsAtom.reportChanged();
   }
@@ -34,7 +34,8 @@ mixin _$AppStore on _AppStore, Store {
 
   @override
   set checkedItemIds(ObservableSet<String> value) {
-    mainContext.checkIfStateModificationsAreAllowed(_$checkedItemIdsAtom);
+    _$checkedItemIdsAtom.context
+        .checkIfStateModificationsAreAllowed(_$checkedItemIdsAtom);
     super.checkedItemIds = value;
     _$checkedItemIdsAtom.reportChanged();
   }
