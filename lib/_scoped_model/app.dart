@@ -33,14 +33,16 @@ class Page extends StatelessWidget {
         ),
         body: ListViewWidget(),
         floatingActionButton: ScopedModelDescendant<AppModel>(
-            builder: (BuildContext context, Widget child, AppModel model) {
-          return FloatingActionButton(
-            onPressed: () =>
-                model.addItem(Item(title: DateTime.now().toString())),
-            tooltip: 'Add',
-            child: Icon(Icons.add),
-          );
-        }));
+          builder: (BuildContext context, Widget child, AppModel model) {
+            return FloatingActionButton(
+              onPressed: () {
+                model.addItem(Item(title: DateTime.now().toString()));
+              },
+              tooltip: 'Add',
+              child: Icon(Icons.add),
+            );
+          },
+        ));
   }
 }
 

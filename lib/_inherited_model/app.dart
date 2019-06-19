@@ -24,16 +24,16 @@ class Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppState state = AppStateContainer.of(context, aspect: 'items');
-
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-              state.addItem(Item(title: DateTime.now().toString())),
+          onPressed: () {
+            final AppState state = AppStateContainer.of(context, aspect: 'items');
+            state.addItem(Item(title: DateTime.now().toString()));
+          },
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));

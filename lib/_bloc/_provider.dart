@@ -13,6 +13,7 @@ class ItemsBlocProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  static ItemsBloc of(BuildContext context) =>
-      (context.inheritFromWidgetOfExactType(ItemsBlocProvider) as ItemsBlocProvider).bloc;
+  static ItemsBloc of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(ItemsBlocProvider) as ItemsBlocProvider).bloc;
+  }
 }
