@@ -1,4 +1,4 @@
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AppModel extends Model {

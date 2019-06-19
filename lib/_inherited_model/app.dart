@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_inherited_model/_state.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class App extends StatelessWidget {
   @override

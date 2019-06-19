@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 import 'package:provider/provider.dart';
 
 import '_state.dart';
@@ -31,8 +31,7 @@ class Page extends StatelessWidget {
             title: Text(title),
           ),
           body: ListViewWidget(),
-          floatingActionButton:
-              Consumer<AppState>(builder: (context, state, _widget) {
+          floatingActionButton: Consumer<AppState>(builder: (context, state, _widget) {
             return FloatingActionButton(
               onPressed: () {
                 state.addItem(Item(title: DateTime.now().toString()));

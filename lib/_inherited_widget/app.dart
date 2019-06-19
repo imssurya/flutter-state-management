@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_inherited_widget/_state.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class App extends StatelessWidget {
   @override
@@ -24,16 +24,16 @@ class Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppState state = AppStateContainer.of(context);
-
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-              state.addItem(Item(title: DateTime.now().toString())),
+          onPressed: () {
+            final AppState state = AppStateContainer.of(context);
+            state.addItem(Item(title: DateTime.now().toString()));
+          },
           tooltip: 'Add',
           child: Icon(Icons.add),
         ));
@@ -56,5 +56,23 @@ class ListViewWidget extends StatelessWidget {
             title: Text(items[index].title),
           );
         });
+  }
+}
+
+// Extract action button widget to decrease rebuilds
+class AddItemButton extends StatelessWidget {
+  AddItemButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final AppState state = AppStateContainer.of(context);
+
+    return FloatingActionButton(
+      onPressed: () {
+        state.addItem(Item(title: DateTime.now().toString()));
+      },
+      tooltip: 'Add',
+      child: Icon(Icons.add),
+    );
   }
 }

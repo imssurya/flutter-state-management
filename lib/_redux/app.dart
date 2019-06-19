@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_state_management/_redux/_actions.dart';
-import 'package:flutter_state_management/_redux/_reducers.dart';
-import 'package:flutter_state_management/_redux/_state.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 import 'package:redux/redux.dart';
+
+import '_store.dart';
 
 class App extends StatelessWidget {
   final store = Store<AppState>(appReducer, initialState: AppState.initialState());
@@ -37,7 +36,9 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: StoreConnector<AppState, VoidCallback>(
           converter: (Store<AppState> store) {
-            return () => store.dispatch(AddItemAction(payload: Item(title: DateTime.now().toString())));
+            return () {
+              store.dispatch(AddItemAction(payload: Item(title: DateTime.now().toString())));
+            };
           },
           builder: (BuildContext context, VoidCallback onPressedCallback) {
             return FloatingActionButton(

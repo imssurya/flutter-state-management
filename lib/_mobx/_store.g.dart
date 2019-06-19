@@ -51,34 +51,4 @@ mixin _$AppStore on _AppStore, Store {
       _$_AppStoreActionController.endAction(_$actionInfo);
     }
   }
-
-  @override
-  void removeItem(Item item) {
-    final _$actionInfo = _$_AppStoreActionController.startAction();
-    try {
-      return super.removeItem(item);
-    } finally {
-      _$_AppStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void addCheckedItem(String itemId) {
-    final _$actionInfo = _$_AppStoreActionController.startAction();
-    try {
-      return super.addCheckedItem(itemId);
-    } finally {
-      _$_AppStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void removeCheckedItem(String itemId) {
-    final _$actionInfo = _$_AppStoreActionController.startAction();
-    try {
-      return super.removeCheckedItem(itemId);
-    } finally {
-      _$_AppStoreActionController.endAction(_$actionInfo);
-    }
-  }
 }

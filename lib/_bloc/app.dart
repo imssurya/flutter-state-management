@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/_bloc/_bloc.dart';
 import 'package:flutter_state_management/_bloc/_provider.dart';
-import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class App extends StatelessWidget {
-  final ItemsBloc itemsBloc =
-      ItemsBloc(seedValue: sampleItems); // there's no DI system in Flutter so far
+  final ItemsBloc itemsBloc = ItemsBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            itemsBloc.itemsEventSink.add(AddItemEvent(Item(title: DateTime.now().toString())));
+            itemsBloc.addItem(Item(title: DateTime.now().toString()));
           },
           tooltip: 'Add',
           child: Icon(Icons.add),

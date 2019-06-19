@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class _AppStateWidget extends InheritedWidget {
   _AppStateWidget({
@@ -15,20 +15,16 @@ class _AppStateWidget extends InheritedWidget {
 }
 
 class AppStateContainer extends StatefulWidget {
-  AppStateContainer({Key key, @required this.child, this.initialState})
-      : super(key: key);
+  AppStateContainer({Key key, @required this.child, this.initialState}) : super(key: key);
 
   final Widget child;
   final AppStateModel initialState;
 
   @override
-  State<AppStateContainer> createState() =>
-      AppState(initialState: initialState);
+  State<AppStateContainer> createState() => AppState(initialState: initialState);
 
   static AppState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_AppStateWidget)
-            as _AppStateWidget)
-        .state;
+    return (context.inheritFromWidgetOfExactType(_AppStateWidget) as _AppStateWidget).state;
   }
 }
 

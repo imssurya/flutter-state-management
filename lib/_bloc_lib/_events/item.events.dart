@@ -1,5 +1,5 @@
 import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/_bloc_lib/_lib/item.entity.dart';
 
 class AddItemEvent extends EntityEvent<Item> {
   final Item item;

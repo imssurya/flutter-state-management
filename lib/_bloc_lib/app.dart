@@ -7,7 +7,8 @@ import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
 import 'package:flutter_state_management/_bloc_lib/_states/item.state.dart';
 import 'package:flutter_state_management/_bloc_lib/_events/selection.events.dart';
 import 'package:flutter_state_management/_bloc_lib/_states/selection.state.dart';
-import 'package:flutter_state_management/item.model.dart';
+
+import '_lib/item.entity.dart';
 
 class App extends StatefulWidget {
   @override

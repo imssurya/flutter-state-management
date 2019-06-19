@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class AppState with ChangeNotifier {
   List<Item> _items = sampleItems;

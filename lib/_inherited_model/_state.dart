@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_state_management/item.model.dart';
+import 'package:flutter_state_management/item.dart';
 
 class _AppStateWidget extends InheritedModel<String> {
   _AppStateWidget({
@@ -14,8 +14,7 @@ class _AppStateWidget extends InheritedModel<String> {
   bool updateShouldNotify(_AppStateWidget oldWidget) => true;
 
   @override
-  bool updateShouldNotifyDependent(
-      InheritedModel<String> oldWidget, Set<String> dependencies) {
+  bool updateShouldNotifyDependent(InheritedModel<String> oldWidget, Set<String> dependencies) {
     if (dependencies.contains('items')) {
       return true;
     }
@@ -25,20 +24,16 @@ class _AppStateWidget extends InheritedModel<String> {
 }
 
 class AppStateContainer extends StatefulWidget {
-  AppStateContainer({Key key, @required this.child, this.initialState})
-      : super(key: key);
+  AppStateContainer({Key key, @required this.child, this.initialState}) : super(key: key);
 
   final Widget child;
   final AppStateModel initialState;
 
   @override
-  State<AppStateContainer> createState() =>
-      AppState(initialState: initialState);
+  State<AppStateContainer> createState() => AppState(initialState: initialState);
 
   static AppState of(BuildContext context, {Object aspect}) {
-    return (InheritedModel.inheritFrom<_AppStateWidget>(context,
-            aspect: aspect))
-        .state;
+    return (InheritedModel.inheritFrom<_AppStateWidget>(context, aspect: aspect)).state;
   }
 }
 
