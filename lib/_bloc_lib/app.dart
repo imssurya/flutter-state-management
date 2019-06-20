@@ -16,30 +16,26 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final ItemEntityBloc _itemEntityBloc = ItemEntityBloc();
-  final ItemSelectionBloc _itemSelectionBloc = ItemSelectionBloc();
-
   @override
   Widget build(BuildContext context) {
     return BlocProviderTree(
         blocProviders: [
-          BlocProvider<ItemEntityBloc>(bloc: _itemEntityBloc),
-          BlocProvider<ItemSelectionBloc>(bloc: _itemSelectionBloc)
+          BlocProvider<ItemEntityBloc>(
+            builder: (BuildContext context) => ItemEntityBloc(),
+          ),
+          BlocProvider<ItemSelectionBloc>(
+            builder: (BuildContext context) => ItemSelectionBloc(),
+          )
         ],
         child: MaterialApp(
           title: 'BLoC Lib Sample',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Page(title: 'BLoC Lib Sample'),
+          home: Page(
+            title: 'BLoC Lib Sample',
+          ),
         ));
-  }
-
-  @override
-  void dispose() {
-    _itemEntityBloc.dispose();
-    _itemSelectionBloc.dispose();
-    super.dispose();
   }
 }
 
