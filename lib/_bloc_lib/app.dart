@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_state_management/_bloc_lib/_blocs/item.bloc.dart';
 import 'package:flutter_state_management/_bloc_lib/_blocs/selection.bloc.dart';
-import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
 import 'package:flutter_state_management/_bloc_lib/_events/item.events.dart';
 import 'package:flutter_state_management/_bloc_lib/_states/item.state.dart';
 import 'package:flutter_state_management/_bloc_lib/_events/selection.events.dart';
@@ -18,24 +17,25 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return BlocProviderTree(
-        blocProviders: [
-          BlocProvider<ItemEntityBloc>(
-            builder: (BuildContext context) => ItemEntityBloc(),
-          ),
-          BlocProvider<ItemSelectionBloc>(
-            builder: (BuildContext context) => ItemSelectionBloc(),
-          )
-        ],
-        child: MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ItemEntityBloc>(
+          builder: (context) => ItemEntityBloc(),
+        ),
+        BlocProvider<ItemSelectionBloc>(
+          builder: (context) => ItemSelectionBloc(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'BLoC Lib Sample',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Page(
           title: 'BLoC Lib Sample',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: Page(
-            title: 'BLoC Lib Sample',
-          ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -46,69 +46,76 @@ class Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ItemEntityBloc _itemEntityBloc = BlocProvider.of<ItemEntityBloc>(context);
-    final ItemSelectionBloc _itemSelectionBloc = BlocProvider.of<ItemSelectionBloc>(context);
+    final ItemEntityBloc _itemEntityBloc =
+        BlocProvider.of<ItemEntityBloc>(context);
+    final ItemSelectionBloc _itemSelectionBloc =
+        BlocProvider.of<ItemSelectionBloc>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          actions: <Widget>[
-            BlocBuilder(
-                bloc: _itemSelectionBloc,
-                builder: (BuildContext context, ItemSelectionState selectionState) {
-                  return Visibility(
-                      visible: selectionState.ids.isNotEmpty,
-                      child: IconButton(
-                          icon: Icon(Icons.delete),
-                          tooltip: 'Delete selected items',
-                          onPressed: () {
-                            _itemEntityBloc.dispatch(RemoveItemsEvent(selectionState.ids));
-                            _itemSelectionBloc.dispatch(ClearItemSelectionEvent());
-                          }));
-                })
-          ],
-        ),
-        body: ListViewWidget(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _itemEntityBloc.dispatch(AddItemEvent(Item(title: DateTime.now().toString())));
-          },
-          tooltip: 'Add',
-          child: Icon(Icons.add),
-        ));
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          BlocBuilder(
+            bloc: _itemSelectionBloc,
+            builder: (context, selectionState) {
+              return Visibility(
+                visible: selectionState.ids.isNotEmpty,
+                child: IconButton(
+                  icon: Icon(Icons.delete),
+                  tooltip: 'Delete selected items',
+                  onPressed: () {
+                    _itemEntityBloc.add(RemoveItemsEvent(selectionState.ids));
+                    _itemSelectionBloc.add(ClearItemSelectionEvent());
+                  },
+                ),
+              );
+            },
+          )
+        ],
+      ),
+      body: ListViewWidget(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _itemEntityBloc
+              .add(AddItemEvent(Item(title: DateTime.now().toString())));
+        },
+        tooltip: 'Add',
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
 
 class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ItemEntityBloc _itemEntityBloc = BlocProvider.of<ItemEntityBloc>(context);
+    return BlocBuilder<ItemEntityBloc, ItemEntityState>(
+      builder: (context, entityState) {
+        return ListView.builder(
+          padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+          itemCount: entityState.entities.length,
+          itemBuilder: (context, index) {
+            final ItemSelectionBloc _itemSelectionBloc =
+                BlocProvider.of<ItemSelectionBloc>(context);
+            return BlocBuilder<ItemSelectionBloc, ItemSelectionState>(
+              builder: (context, selectionState) {
+                final item = entityState.entities[index];
 
-    return BlocBuilder<EntityEvent, ItemEntityState>(
-        bloc: _itemEntityBloc,
-        builder: (BuildContext context, ItemEntityState entityState) {
-          return ListView.builder(
-              padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-              itemCount: entityState.entities.length,
-              itemBuilder: (BuildContext context, int index) {
-                final ItemSelectionBloc _itemSelectionBloc =
-                    BlocProvider.of<ItemSelectionBloc>(context);
-
-                return BlocBuilder(
-                    bloc: _itemSelectionBloc,
-                    builder: (BuildContext context, ItemSelectionState selectionState) {
-                      final item = entityState.entities[index];
-
-                      return CheckboxListTile(
-                          title: Text(item.title),
-                          value: selectionState.ids.contains(item.id),
-                          onChanged: (bool newValue) {
-                            final event =
-                                newValue ? SelectItemEvent(item.id) : DeselectItemEvent(item.id);
-                            _itemSelectionBloc.dispatch(event);
-                          });
-                    });
-              });
-        });
+                return CheckboxListTile(
+                  title: Text(item.title),
+                  value: selectionState.ids.contains(item.id),
+                  onChanged: (bool newValue) {
+                    final event = newValue
+                        ? SelectItemEvent(item.id)
+                        : DeselectItemEvent(item.id);
+                    _itemSelectionBloc.add(event);
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

@@ -10,15 +10,15 @@ class ItemEntityBloc extends EntityBloc<EntityEvent, ItemEntityState> {
   @override
   Stream<ItemEntityState> mapEventToState(EntityEvent event) async* {
     if (event is AddItemEvent) {
-      final List<Item> items = List.from(currentState.entities)..add(event.item);
+      final List<Item> items = List.from(state.entities)..add(event.item);
 
       yield ItemEntityState(items);
     } else if (event is AddItemsEvent) {
-      final List<Item> items = List.from(currentState.entities)..addAll(event.items);
+      final List<Item> items = List.from(state.entities)..addAll(event.items);
 
       yield ItemEntityState(items);
     } else if (event is RemoveItemsEvent) {
-      final List<Item> items = List.from(currentState.entities);
+      final List<Item> items = List.from(state.entities);
 
       items.removeWhere((item) => event.itemIds.contains(item.id));
 
