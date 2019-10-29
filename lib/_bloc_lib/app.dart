@@ -9,13 +9,7 @@ import 'package:flutter_state_management/_bloc_lib/_states/selection.state.dart'
 
 import '_lib/item.entity.dart';
 
-class App extends StatefulWidget {
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  @override
+class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
