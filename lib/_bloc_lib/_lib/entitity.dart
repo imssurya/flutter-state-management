@@ -30,5 +30,5 @@ abstract class EntityState<E extends Entity> extends Equatable {
         super([entities]..addAll(props));
 }
 
-abstract class EntityBloc<E extends EntityEvent, S extends EntityState>
-    extends Bloc<E, S> {}
+abstract class EntityBloc<Event extends EntityEvent, State extends EntityState>
+    extends Bloc<Event, State> {}

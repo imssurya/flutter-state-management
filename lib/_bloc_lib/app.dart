@@ -10,13 +10,13 @@ import 'package:flutter_state_management/_bloc_lib/_states/selection.state.dart'
 import '_lib/item.entity.dart';
 
 class App extends StatelessWidget {
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ItemEntityBloc>(
+        BlocProvider(
           builder: (context) => ItemEntityBloc(),
         ),
-        BlocProvider<ItemSelectionBloc>(
+        BlocProvider(
           builder: (context) => ItemSelectionBloc(),
         )
       ],
@@ -34,32 +34,33 @@ class App extends StatelessWidget {
 }
 
 class Page extends StatelessWidget {
-  Page({Key key, this.title}) : super(key: key);
+  Page({
+    Key key,
+    this.title,
+  }) : super(key: key);
 
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final ItemEntityBloc _itemEntityBloc =
-        BlocProvider.of<ItemEntityBloc>(context);
-    final ItemSelectionBloc _itemSelectionBloc =
-        BlocProvider.of<ItemSelectionBloc>(context);
+  Widget build(context) {
+    final _entityBloc = BlocProvider.of<ItemEntityBloc>(context);
+    final _selectionBloc = BlocProvider.of<ItemSelectionBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        actions: <Widget>[
-          BlocBuilder(
-            bloc: _itemSelectionBloc,
-            builder: (context, selectionState) {
+        actions: [
+          BlocBuilder<ItemSelectionBloc, ItemSelectionState>(
+            bloc: _selectionBloc,
+            builder: (context, state) {
               return Visibility(
-                visible: selectionState.ids.isNotEmpty,
+                visible: state.ids.isNotEmpty,
                 child: IconButton(
                   icon: Icon(Icons.delete),
                   tooltip: 'Delete selected items',
                   onPressed: () {
-                    _itemEntityBloc.add(RemoveItemsEvent(selectionState.ids));
-                    _itemSelectionBloc.add(ClearItemSelectionEvent());
+                    _entityBloc.add(RemoveItemsEvent(state.ids));
+                    _selectionBloc.add(ClearItemSelectionEvent());
                   },
                 ),
               );
@@ -70,8 +71,7 @@ class Page extends StatelessWidget {
       body: ListViewWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _itemEntityBloc
-              .add(AddItemEvent(Item(title: DateTime.now().toString())));
+          _entityBloc.add(AddItemEvent(Item(title: DateTime.now().toString())));
         },
         tooltip: 'Add',
         child: Icon(Icons.add),
@@ -83,26 +83,30 @@ class Page extends StatelessWidget {
 class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _entityBloc = BlocProvider.of<ItemEntityBloc>(context);
+
     return BlocBuilder<ItemEntityBloc, ItemEntityState>(
+      bloc: _entityBloc,
       builder: (context, entityState) {
         return ListView.builder(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
           itemCount: entityState.entities.length,
           itemBuilder: (context, index) {
-            final ItemSelectionBloc _itemSelectionBloc =
-                BlocProvider.of<ItemSelectionBloc>(context);
+            final _selectionBloc = BlocProvider.of<ItemSelectionBloc>(context);
+
             return BlocBuilder<ItemSelectionBloc, ItemSelectionState>(
+              bloc: _selectionBloc,
               builder: (context, selectionState) {
                 final item = entityState.entities[index];
 
                 return CheckboxListTile(
                   title: Text(item.title),
                   value: selectionState.ids.contains(item.id),
-                  onChanged: (bool newValue) {
-                    final event = newValue
+                  onChanged: (isChecked) {
+                    final event = isChecked
                         ? SelectItemEvent(item.id)
                         : DeselectItemEvent(item.id);
-                    _itemSelectionBloc.add(event);
+                    _selectionBloc.add(event);
                   },
                 );
               },
