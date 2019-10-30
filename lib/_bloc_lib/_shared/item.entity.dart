@@ -1,11 +1,15 @@
-import 'package:flutter_state_management/_bloc_lib/_lib/entitity.dart';
 import 'package:meta/meta.dart';
+
+import 'entitity.dart';
 
 @immutable
 class Item extends Entity {
   final String title;
 
-  Item({String id, this.title}) : super(id, [title]);
+  Item({String id, this.title}) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([id, title]);
 }
 
 final List<Item> sampleItems = [

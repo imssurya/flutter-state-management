@@ -7,27 +7,28 @@ import 'package:uuid/uuid.dart';
 class Entity extends Equatable {
   final String id;
 
-  Entity([String id, List props = const []])
-      : this.id = id ?? Uuid().v4(),
-        super([id]..addAll(props));
+  Entity([String id]) : this.id = id ?? Uuid().v4();
+
+  @override
+  List<Object> get props => [id];
 }
 
 @immutable
-abstract class EntityEvent<E extends Entity> extends Equatable {
-  EntityEvent([List props = const []]) : super(props);
-}
+abstract class EntityEvent<E extends Entity> extends Equatable {}
 
 @immutable
-abstract class EntityState<E extends Entity> extends Equatable {
+class EntityState<E extends Entity> extends Equatable {
   final Map<String, E> dictionary;
   final List<String> ids;
   final List<E> entities;
 
-  EntityState([this.entities = const [], List props = const []])
+  EntityState([this.entities = const []])
       : dictionary = Map.fromIterable(entities,
             key: (entity) => entity.id, value: (entity) => entity),
-        ids = List.from(entities.map((entity) => entity.id)),
-        super([entities]..addAll(props));
+        ids = List.from(entities.map((entity) => entity.id));
+
+  @override
+  List<Object> get props => [dictionary, ids, entities];
 }
 
 abstract class EntityBloc<Event extends EntityEvent, State extends EntityState>
