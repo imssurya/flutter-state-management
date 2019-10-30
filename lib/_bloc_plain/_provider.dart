@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_state_management/_bloc/_bloc.dart';
+
+import '_bloc.dart';
 
 class ItemsBlocProvider extends InheritedWidget {
   final ItemsBloc bloc;
@@ -14,6 +15,9 @@ class ItemsBlocProvider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static ItemsBloc of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(ItemsBlocProvider) as ItemsBlocProvider).bloc;
+    final provider = context.inheritFromWidgetOfExactType(ItemsBlocProvider)
+        as ItemsBlocProvider;
+
+    return provider.bloc;
   }
 }

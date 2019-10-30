@@ -9,7 +9,7 @@ import 'package:flutter_state_management/_bloc_lib/_blocs/items/items.state.dart
 import 'package:flutter_state_management/_bloc_lib/_shared/item.entity.dart';
 
 class App extends StatelessWidget {
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ItemsBloc>(
@@ -41,7 +41,7 @@ class Page extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     // ignore: close_sinks
     final _itemsBloc = BlocProvider.of<ItemsBloc>(context);
     // ignore: close_sinks
@@ -83,7 +83,8 @@ class Page extends StatelessWidget {
 
 class ListViewWidget extends StatelessWidget {
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
+    // ignore: close_sinks
     final _itemsBloc = BlocProvider.of<ItemsBloc>(context);
 
     return BlocBuilder<ItemsBloc, ItemsState>(
@@ -93,6 +94,7 @@ class ListViewWidget extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
           itemCount: entityState.entities.length,
           itemBuilder: (context, index) {
+            // ignore: close_sinks
             final _itemsSelectionBloc =
                 BlocProvider.of<ItemsSelectionBloc>(context);
 

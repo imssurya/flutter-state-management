@@ -18,30 +18,36 @@ class App extends StatelessWidget {
 }
 
 class Page extends StatelessWidget {
-  Page({Key key, this.title}) : super(key: key);
+  Page({
+    Key key,
+    this.title,
+  }) : super(key: key);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListViewWidget(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            final AppState state = AppStateContainer.of(context);
-            state.addItem(Item(title: DateTime.now().toString()));
-          },
-          tooltip: 'Add',
-          child: Icon(Icons.add),
-        ));
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: ListViewWidget(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final AppState state = AppStateContainer.of(context);
+          state.addItem(Item(title: DateTime.now().toString()));
+        },
+        tooltip: 'Add',
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
 
 class ListViewWidget extends StatelessWidget {
-  ListViewWidget({Key key}) : super(key: key);
+  ListViewWidget({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +55,22 @@ class ListViewWidget extends StatelessWidget {
     final List<Item> items = state.items;
 
     return ListView.builder(
-        padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(items[index].title),
-          );
-        });
+      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(items[index].title),
+        );
+      },
+    );
   }
 }
 
 // Extract action button widget to decrease rebuilds
 class AddItemButton extends StatelessWidget {
-  AddItemButton({Key key}) : super(key: key);
+  AddItemButton({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

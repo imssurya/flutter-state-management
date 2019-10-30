@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_management/item.dart';
-import 'package:provider/provider.dart';
 
-import '_state.dart';
+import '_bloc.dart';
+import '_provider.dart';
 
 class App extends StatelessWidget {
+  final ItemsBloc itemsBloc = ItemsBloc();
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (context) => AppState(),
+    return ItemsBlocProvider(
+      bloc: itemsBloc,
       child: MaterialApp(
-        title: 'Provider Sample',
+        title: 'BLoC Sample',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Page(title: 'Provider Sample'),
+        home: Page(title: 'BLoC Sample'),
       ),
     );
   }
 }
 
 class Page extends StatelessWidget {
-  Page({
-    Key key,
-    this.title,
-  }) : super(key: key);
+  Page({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
+    final ItemsBloc itemsBloc = ItemsBlocProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -37,8 +38,7 @@ class Page extends StatelessWidget {
       body: ListViewWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final state = Provider.of<AppState>(context, listen: false);
-          state.addItem(Item(title: DateTime.now().toString()));
+          itemsBloc.addItem(Item(title: DateTime.now().toString()));
         },
         tooltip: 'Add',
         child: Icon(Icons.add),
@@ -50,14 +50,19 @@ class Page extends StatelessWidget {
 class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppState>(
-      builder: (context, state, child) {
+    final ItemsBloc itemsBloc = ItemsBlocProvider.of(context);
+
+    return StreamBuilder<List<Item>>(
+      stream: itemsBloc.items,
+      builder: (context, snapshot) {
+        final items = snapshot.data;
+
         return ListView.builder(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-          itemCount: state.items.length,
+          itemCount: items is List<Item> ? items.length : 0,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(state.items[index].title),
+              title: Text(items[index].title),
             );
           },
         );

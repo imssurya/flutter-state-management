@@ -19,37 +19,44 @@ class App extends StatelessWidget {
 }
 
 class Page extends StatelessWidget {
-  Page({Key key, this.title}) : super(key: key);
+  Page({
+    Key key,
+    this.title,
+  }) : super(key: key);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: ListViewWidget(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            store.addItem(Item(title: DateTime.now().toString()));
-          },
-          tooltip: 'Add',
-          child: Icon(Icons.add),
-        ));
+      appBar: AppBar(title: Text(title)),
+      body: ListViewWidget(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          store.addItem(Item(title: DateTime.now().toString()));
+        },
+        tooltip: 'Add',
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
 
 class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_) {
-      return ListView.builder(
+    return Observer(
+      builder: (_) {
+        return ListView.builder(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
           itemCount: store.items.length,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             return ListTile(
               title: Text(store.items[index].title),
             );
-          });
-    });
+          },
+        );
+      },
+    );
   }
 }

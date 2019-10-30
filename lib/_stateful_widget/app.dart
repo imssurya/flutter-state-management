@@ -15,7 +15,10 @@ class App extends StatelessWidget {
 }
 
 class Page extends StatefulWidget {
-  Page({Key key, this.title}) : super(key: key);
+  Page({
+    Key key,
+    this.title,
+  }) : super(key: key);
 
   final String title;
 
@@ -45,19 +48,23 @@ class _PageState extends State<Page> {
 }
 
 class ListViewWidget extends StatelessWidget {
-  ListViewWidget({Key key, this.items: const []}) : super(key: key);
+  ListViewWidget({
+    Key key,
+    this.items: const [],
+  }) : super(key: key);
 
   final List<Item> items;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(items[index].title),
-          );
-        });
+      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(items[index].title),
+        );
+      },
+    );
   }
 }

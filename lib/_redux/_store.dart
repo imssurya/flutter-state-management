@@ -5,7 +5,9 @@ import 'package:meta/meta.dart';
 class AppState {
   final List<Item> items;
 
-  AppState({this.items});
+  AppState({
+    this.items,
+  });
 
   AppState.initialState() : items = sampleItems;
 }
@@ -13,7 +15,9 @@ class AppState {
 class AddItemAction {
   Item payload;
 
-  AddItemAction({this.payload});
+  AddItemAction({
+    this.payload,
+  });
 }
 
 AppState appReducer(AppState state, dynamic action) {
