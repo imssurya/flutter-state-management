@@ -1,7 +1,9 @@
 class Item {
   final String title;
 
-  Item({this.title});
+  Item({
+    this.title,
+  });
 }
 
 final List<Item> sampleItems = [
