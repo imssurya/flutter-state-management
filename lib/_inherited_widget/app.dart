@@ -5,7 +5,7 @@ import 'package:flutter_state_management/item.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AppStateContainer(
+    return AppStateProvider(
       initialState: AppStateModel(items: sampleItems),
       child: MaterialApp(
           title: 'Inherited Widget Sample',
@@ -34,7 +34,7 @@ class Page extends StatelessWidget {
       body: ListViewWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final AppState state = AppStateContainer.of(context);
+          final AppState state = AppStateProvider.of(context);
           state.addItem(Item(title: DateTime.now().toString()));
         },
         tooltip: 'Add',
@@ -51,7 +51,7 @@ class ListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppState state = AppStateContainer.of(context);
+    final AppState state = AppStateProvider.of(context);
     final List<Item> items = state.items;
 
     return ListView.builder(
@@ -74,7 +74,7 @@ class AddItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppState state = AppStateContainer.of(context);
+    final AppState state = AppStateProvider.of(context);
 
     return FloatingActionButton(
       onPressed: () {

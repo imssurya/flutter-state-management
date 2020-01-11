@@ -13,10 +13,10 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ItemsBloc>(
-          builder: (context) => ItemsBloc(),
+          create: (context) => ItemsBloc(),
         ),
         BlocProvider<ItemsSelectionBloc>(
-          builder: (context) => ItemsSelectionBloc(),
+          create: (context) => ItemsSelectionBloc(),
         )
       ],
       child: MaterialApp(

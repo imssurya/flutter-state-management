@@ -18,7 +18,7 @@ class ItemsBloc {
 
   StreamSink<List<Item>> get _itemsStateSink => _itemsStateSubject.sink;
 
-  ValueObservable<List<Item>> get items => _itemsStateSubject.stream;
+  ValueStream<List<Item>> get items => _itemsStateSubject.stream;
 
   List<StreamSubscription<dynamic>> _subscriptions;
 

@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (context) => AppState(),
+      create: (context) => AppState(),
       child: MaterialApp(
         title: 'Provider Sample',
         theme: ThemeData(
