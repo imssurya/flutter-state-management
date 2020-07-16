@@ -38,9 +38,7 @@ class AppStateProvider extends StatefulWidget {
   State<AppStateProvider> createState() => AppState(initialState: initialState);
 
   static AppState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_AppStateWidget)
-            as _AppStateWidget)
-        .state;
+    return context.dependOnInheritedWidgetOfExactType<_AppStateWidget>().state;
   }
 }
 

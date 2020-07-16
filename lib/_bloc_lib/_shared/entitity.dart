@@ -32,4 +32,6 @@ class EntityState<E extends Entity> extends Equatable {
 }
 
 abstract class EntityBloc<Event extends EntityEvent, State extends EntityState>
-    extends Bloc<Event, State> {}
+    extends Bloc<Event, State> {
+  EntityBloc(State initialState) : super(initialState);
+}

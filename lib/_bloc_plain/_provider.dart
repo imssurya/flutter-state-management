@@ -15,9 +15,8 @@ class ItemsBlocProvider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static ItemsBloc of(BuildContext context) {
-    final provider = context.inheritFromWidgetOfExactType(ItemsBlocProvider)
-        as ItemsBlocProvider;
-
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ItemsBlocProvider>();
     return provider.bloc;
   }
 }

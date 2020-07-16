@@ -5,8 +5,7 @@ import 'items.events.dart';
 import 'items.state.dart';
 
 class ItemsBloc extends EntityBloc<EntityEvent, ItemsState> {
-  @override
-  ItemsState get initialState => ItemsState(sampleItems);
+  ItemsBloc(ItemsState initialState) : super(initialState);
 
   @override
   Stream<ItemsState> mapEventToState(EntityEvent event) async* {

@@ -43,8 +43,9 @@ class Page extends StatelessWidget {
         body: ListViewWidget(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            final List<Item> items =
-                (context.inheritFromWidgetOfExactType(AppStateWidget) as AppStateWidget).items;
+            final List<Item> items = context
+                .dependOnInheritedWidgetOfExactType<AppStateWidget>()
+                .items;
             items.add(Item(title: DateTime.now().toString()));
           },
           tooltip: 'Add',
@@ -59,7 +60,7 @@ class ListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Item> items =
-        (context.inheritFromWidgetOfExactType(AppStateWidget) as AppStateWidget).items;
+        context.dependOnInheritedWidgetOfExactType<AppStateWidget>().items;
 
     return ListView.builder(
         padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
