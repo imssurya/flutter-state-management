@@ -52,7 +52,7 @@ class Page extends StatelessWidget {
         title: Text(title),
         actions: [
           BlocBuilder<ItemsSelectionBloc, ItemsSelectionState>(
-            bloc: _itemsSelectionBloc,
+            cubit: _itemsSelectionBloc,
             builder: (context, state) {
               return Visibility(
                 visible: state.ids.isNotEmpty,
@@ -88,7 +88,7 @@ class ListViewWidget extends StatelessWidget {
     final _itemsBloc = BlocProvider.of<ItemsBloc>(context);
 
     return BlocBuilder<ItemsBloc, ItemsState>(
-      bloc: _itemsBloc,
+      cubit: _itemsBloc,
       builder: (context, entityState) {
         return ListView.builder(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
@@ -99,7 +99,7 @@ class ListViewWidget extends StatelessWidget {
                 BlocProvider.of<ItemsSelectionBloc>(context);
 
             return BlocBuilder<ItemsSelectionBloc, ItemsSelectionState>(
-              bloc: _itemsSelectionBloc,
+              cubit: _itemsSelectionBloc,
               builder: (context, selectionState) {
                 final item = entityState.entities[index];
 
